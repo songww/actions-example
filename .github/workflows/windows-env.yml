@@ -10,8 +10,29 @@ jobs:
   windows-env:
     runs-on: windows-latest
     env:
-      PKG_CONFIG: ${{ env.VCPKG_ROOT }}/packages
+      PKG_CONFIG: $VCPKG_ROOT/packages
+      # PKG_CONFIG2: ${{ VCPKG_ROOT }}/packages
     steps:
     - uses: actions/checkout@v3
+    - name: Install pkgconf
+      run: vcpkg install pkgconf:x64-windows
+    - name: list
+      run: |
+        ls ${env:VCPKG_INSTALLATION_ROOT}/packages/pkgconf_x64-windows
+        ls ${env:VCPKG_INSTALLATION_ROOT}/packages/pkgconf_x64-windows/bin
+        ls ${env:VCPKG_INSTALLATION_ROOT}/packages/pkgconf_x64-windows/tools
+        ls ${env:VCPKG_INSTALLATION_ROOT}/packages/pkgconf_x64-windows/tools/pkgconf
+        ls ${env:VCPKG_INSTALLATION_ROOT}/packages/vcpkg-tool-meson_x64-windows/tools
+        ls ${env:VCPKG_INSTALLATION_ROOT}/packages/vcpkg-tool-meson_x64-windows/tools/meson
+        ls ${env:VCPKG_INSTALLATION_ROOT}/installed/x64-windows/bin
+        ls ${env:VCPKG_INSTALLATION_ROOT}/installed/x64-windows/tools
+        ls ${env:VCPKG_INSTALLATION_ROOT}/installed/x64-windows/tools/pkgconf
+        ls ${env:VCPKG_INSTALLATION_ROOT}/installed/x64-windows/tools/meson
     - name: echo
-      run: echo "${env:PKG_CONFIG}"
+      run: echo $env:PKG_CONFIG
+    - name: echo2
+      run: echo "$env:VCPKG_INSTALLATION_ROOT"
+    - name: echo3
+      run: |
+        $env:PKG_CONFIG="$env:VCPKG_INSTALLATION_ROOT\installed\x64-windows\tools\pkgconf\pkgconf.exe"
+        echo $env:PKG_CONFIG
