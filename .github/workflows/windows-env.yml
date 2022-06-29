@@ -10,8 +10,11 @@ jobs:
   windows-env:
     runs-on: windows-latest
     env:
-      PKG_CONFIG: ${{ env.VCPKG_ROOT }}/packages
+      PKG_CONFIG: $env:VCPKG_ROOT/packages
+      PKG_CONFIG2: ${{ env:VCPKG_ROOT }}/packages
     steps:
     - uses: actions/checkout@v3
     - name: echo
       run: echo "${env:PKG_CONFIG}"
+    - name: echo2
+      run: echo "${env:PKG_CONFIG2}"
